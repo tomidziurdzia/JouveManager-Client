@@ -2,8 +2,9 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import ProtectedRoutes from "./layouts/ProtectedRoutes";
 import PublicRoutes from "./layouts/PublicRoutes";
 import { useAppSelector } from "./store/store";
-import { useAuth } from "./store/auth/useAuth";
+import { useAuth } from "./hooks/useAuth";
 import { useEffect } from "react";
+import Spinner from "./components/Spinner";
 
 const App = () => {
   const { status } = useAppSelector((state) => state.auth);
@@ -14,7 +15,7 @@ const App = () => {
   }, []);
 
   if (status === "checking") {
-    return <div>Loading...</div>;
+    return <Spinner />;
   }
 
   return (

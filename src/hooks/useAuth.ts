@@ -1,6 +1,6 @@
-import { onChecking, onLogin, onLogout } from "./authSlice";
-import clientAxios from "../../config/clientAxios";
-import { useAppDispatch, useAppSelector } from "../store";
+import { onChecking, onLogin, onLogout } from "../store/auth/authSlice";
+import clientAxios from "../config/clientAxios";
+import { useAppDispatch, useAppSelector } from "../store/store";
 
 interface Business {
   email: string;
@@ -44,8 +44,14 @@ export const useAuth = () => {
     }
   };
 
+  const startLogout = () => {
+    localStorage.clear();
+    dispatch(onLogout(undefined));
+  };
+
   return {
     startLogin,
     checkAuthToken,
+    startLogout,
   };
 };

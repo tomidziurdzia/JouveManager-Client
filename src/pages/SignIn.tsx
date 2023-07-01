@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Error } from "../interfaces/Error";
 import Alert from "../components/Alert";
-import { useAuth } from "../store/auth/useAuth";
+import { useAuth } from "../hooks/useAuth";
 import { useAppSelector } from "../store/store";
 
 interface SignIn {
