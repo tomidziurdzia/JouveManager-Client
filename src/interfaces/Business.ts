@@ -3,6 +3,6 @@ export interface Business {
   businessName: string;
   email: string;
   logo?: string;
-  password: string;
+  password?: string;
   confirmPassword?: string;
 }
