@@ -3,10 +3,10 @@ export interface User {
   name: string;
   lastname: string;
   email: string;
-  picture: string;
+  picture?: string;
   password: string;
-  confirmed: boolean;
-  googleAccount: boolean;
-  token: string;
-  type: "administrative" | "driver" | "assistant";
+  confirmPassword?: string;
+  confirmed?: boolean;
+  googleAccount?: boolean;
+  token?: string;
 }
