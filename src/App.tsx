@@ -5,6 +5,11 @@ import { useAppSelector } from "./store/store";
 import { useAuth } from "./hooks/useAuth";
 import { useEffect } from "react";
 import Spinner from "./components/Spinner";
+import Dashboard from "./pages/Dashboard";
+import Employees from "./pages/Employees";
+import Vehicles from "./pages/Vehicles";
+import Travels from "./pages/Travels";
+import Shipments from "./pages/Shipments";
 
 const App = () => {
   const { status } = useAppSelector((state) => state.auth);
@@ -28,8 +33,14 @@ const App = () => {
           </>
         ) : (
           <>
-            <Route path="/" element={<ProtectedRoutes />} />
             <Route path="/*" element={<Navigate to="/" />} />
+            <Route path="/" element={<ProtectedRoutes />}>
+              <Route index element={<Dashboard />} />
+              <Route path="/employees" element={<Employees />} />
+              <Route path="/vehicles" element={<Vehicles />} />
+              <Route path="/travels" element={<Travels />} />
+              <Route path="/shipments" element={<Shipments />} />
+            </Route>
           </>
         )}
       </Routes>

@@ -51,3 +51,7 @@
     -webkit-transform: scale(1);
   }
 }
+
+.active {
+  @apply bg-primary text-white rounded shadow;
+}
