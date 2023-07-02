@@ -37,9 +37,11 @@ export const authSlice = createSlice({
         return employe;
       });
     },
+
     onDeleteEmployee: (state, { payload }) => {
-      state.employee = payload;
-      state.errorMessage = payload;
+      state.employees = state.employees.filter(
+        (employee) => employee._id !== payload
+      );
     },
     onErrorMessage: (state, { payload }) => {
       state.errorMessage = payload;

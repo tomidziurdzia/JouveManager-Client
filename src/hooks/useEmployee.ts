@@ -1,6 +1,7 @@
 import clientAxios from "../config/clientAxios";
 import { Employee } from "../interfaces/Employee";
 import {
+  onDeleteEmployee,
   onErrorMessage,
   onGetEmployee,
   onGetEmployees,
@@ -69,6 +70,22 @@ export const useEmployee = () => {
     }
   };
 
+  const startDeleteEmployee = async (employee: Employee) => {
+    try {
+      await clientAxios.delete(`/employees/${employee._id}`);
+      dispatch(onDeleteEmployee(employee._id));
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.log(error);
+      dispatch(
+        onErrorMessage({
+          msg: error.response.data.msg,
+          error: true,
+        })
+      );
+    }
+  };
+
   const startLoadingEmployees = async () => {
     try {
       const { data } = await clientAxios("/employees");
@@ -83,5 +100,6 @@ export const useEmployee = () => {
     startNewEmployee,
     startLoadingEmployees,
     startEditEmployee,
+    startDeleteEmployee,
   };
 };

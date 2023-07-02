@@ -11,10 +11,14 @@ interface Props {
 const Employee = ({ employee }: Props) => {
   const [modalForm, setModalForm] = useState(false);
 
-  const { startGetEmployee } = useEmployee();
+  const { startGetEmployee, startDeleteEmployee } = useEmployee();
   const handleClickEdit = async () => {
     await startGetEmployee(employee);
     setModalForm(!modalForm);
+  };
+
+  const handleClickDelete = async () => {
+    await startDeleteEmployee(employee);
   };
 
   return (
@@ -43,7 +47,10 @@ const Employee = ({ employee }: Props) => {
         >
           Edit
         </button>
-        <button className="bg-red-200 p-2 rounded-lg shadow-sm w-full">
+        <button
+          onClick={handleClickDelete}
+          className="bg-red-200 p-2 rounded-lg shadow-sm w-full"
+        >
           Delete
         </button>
       </div>
