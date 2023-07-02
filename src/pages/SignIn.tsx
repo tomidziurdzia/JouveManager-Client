@@ -41,7 +41,7 @@ const SignIn = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    startLogin(values);
+    await startLogin(values);
   };
 
   const { msg, error } = alert;

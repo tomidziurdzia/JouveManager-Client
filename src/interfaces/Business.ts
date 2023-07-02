@@ -1,5 +1,5 @@
 export interface Business {
-  id?: string;
+  _id?: string;
   businessName: string;
   email: string;
   logo?: string;

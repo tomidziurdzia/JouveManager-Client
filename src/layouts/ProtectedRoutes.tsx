@@ -13,7 +13,7 @@ const ProtectedRoutes = () => {
         <div className="w-2/12">
           <Sidebar />
         </div>
-        <div className="w-10/12 bg-gray-50">
+        <div className="w-10/12">
           {/* <Routes> */}
           {/* <Route path="*" element={<Dashboard />} />
             <Route path="/employees" element={<Employees />} /> */}
