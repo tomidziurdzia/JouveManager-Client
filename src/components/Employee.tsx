@@ -1,11 +1,22 @@
 import { IoPersonOutline } from "react-icons/io5";
 import { Employee } from "../interfaces/Employee";
+import { useEmployee } from "../hooks/useEmployee";
+import ModalEmployeeForm from "./ModalEmployeeForm";
+import { useState } from "react";
 
 interface Props {
   employee: Employee;
 }
 
 const Employee = ({ employee }: Props) => {
+  const [modalForm, setModalForm] = useState(false);
+
+  const { startGetEmployee } = useEmployee();
+  const handleClickEdit = async () => {
+    await startGetEmployee(employee);
+    setModalForm(!modalForm);
+  };
+
   return (
     <div className="flex px-4 py-2 items-center border-gray-100 border-b-2 text-lg">
       <div className="w-1/12">
@@ -26,13 +37,17 @@ const Employee = ({ employee }: Props) => {
         <button className="bg-green-200 p-2 rounded-lg shadow-sm w-full">
           View
         </button>
-        <button className="bg-gray-300 p-2 rounded-lg shadow-sm w-full">
+        <button
+          onClick={handleClickEdit}
+          className="bg-gray-300 p-2 rounded-lg shadow-sm w-full"
+        >
           Edit
         </button>
         <button className="bg-red-200 p-2 rounded-lg shadow-sm w-full">
           Delete
         </button>
       </div>
+      <ModalEmployeeForm modalForm={modalForm} setModalForm={setModalForm} />
     </div>
   );
 };

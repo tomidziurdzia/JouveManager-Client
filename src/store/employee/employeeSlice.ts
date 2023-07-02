@@ -30,8 +30,12 @@ export const authSlice = createSlice({
       state.employees = [...state.employees, payload];
     },
     onUpdateEmployee: (state, { payload }) => {
-      state.employee = payload;
-      state.errorMessage = payload;
+      state.employees = state.employees.map((employe) => {
+        if (employe._id === payload._id) {
+          return payload;
+        }
+        return employe;
+      });
     },
     onDeleteEmployee: (state, { payload }) => {
       state.employee = payload;

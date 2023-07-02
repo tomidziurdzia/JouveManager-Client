@@ -1,10 +1,18 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
+import {
+  Dispatch,
+  Fragment,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { Error } from "../interfaces/Error";
 import Alert from "./Alert";
 import { Employee } from "../interfaces/Employee";
 import { useEmployee } from "../hooks/useEmployee";
+import { onGetEmployee } from "../store/employee/employeeSlice";
 
 interface Modal {
   modalForm: boolean;
@@ -12,9 +20,9 @@ interface Modal {
 }
 
 const ModalEmployeeForm = ({ modalForm, setModalForm }: Modal) => {
-  const { employee } = useAppSelector((state) => state.employee);
-  const { errorMessage } = useAppSelector((state) => state.employee);
-  const { startNewEmployee } = useEmployee();
+  const dispatch = useAppDispatch();
+  const { errorMessage, employee } = useAppSelector((state) => state.employee);
+  const { startNewEmployee, startEditEmployee } = useEmployee();
 
   useEffect(() => {
     if (errorMessage) {
@@ -24,6 +32,19 @@ const ModalEmployeeForm = ({ modalForm, setModalForm }: Modal) => {
       });
     }
   }, [errorMessage]);
+
+  useEffect(() => {
+    if (employee?._id) {
+      setValues({
+        name: employee.name,
+        lastname: employee.lastname,
+        email: employee.email,
+        password: employee.password,
+        type: employee.type,
+        _id: employee._id,
+      });
+    }
+  }, [modalForm]);
 
   const [alert, setAlert] = useState<Error>({
     msg: "",
@@ -39,7 +60,6 @@ const ModalEmployeeForm = ({ modalForm, setModalForm }: Modal) => {
   });
 
   const handleClick = () => {
-    setModalForm(!modalForm);
     setAlert({
       msg: "",
       error: undefined,
@@ -51,6 +71,8 @@ const ModalEmployeeForm = ({ modalForm, setModalForm }: Modal) => {
       password: "",
       type: "",
     });
+    dispatch(onGetEmployee(null));
+    setModalForm(!modalForm);
   };
 
   const handleChange = (
@@ -65,9 +87,13 @@ const ModalEmployeeForm = ({ modalForm, setModalForm }: Modal) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const data = await startNewEmployee(values);
-
-    if (data === undefined) return;
+    let data;
+    if (employee?._id) {
+      data = await startEditEmployee(values);
+    } else {
+      data = await startNewEmployee(values);
+      if (data === undefined) return;
+    }
 
     setValues({
       name: "",
@@ -192,6 +218,7 @@ const ModalEmployeeForm = ({ modalForm, setModalForm }: Modal) => {
                         className="border w-full mt-2 placeholder-gray-400 rounded-md p-2"
                         placeholder="tomidziurdzia@gmail.com"
                         name="email"
+                        disabled={employee?._id ? true : false}
                         value={values.email}
                         onChange={handleChange}
                       />

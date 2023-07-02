@@ -2,8 +2,10 @@ import clientAxios from "../config/clientAxios";
 import { Employee } from "../interfaces/Employee";
 import {
   onErrorMessage,
+  onGetEmployee,
   onGetEmployees,
   onNewEmployee,
+  onUpdateEmployee,
 } from "../store/employee/employeeSlice";
 import { useAppDispatch } from "../store/store";
 
@@ -32,6 +34,41 @@ export const useEmployee = () => {
     }
   };
 
+  const startGetEmployee = async (employee: Employee) => {
+    try {
+      const { data } = await clientAxios(`/employees/${employee._id}`);
+      dispatch(onGetEmployee(data));
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      dispatch(
+        onErrorMessage({
+          msg: error.response.data.msg,
+          error: true,
+        })
+      );
+    }
+  };
+
+  const startEditEmployee = async (employee: Employee) => {
+    try {
+      const { data } = await clientAxios.put(
+        `/employees/${employee?._id}`,
+        employee
+      );
+      dispatch(onUpdateEmployee(data));
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.log(error);
+      dispatch(
+        onErrorMessage({
+          msg: error.response.data.msg,
+          error: true,
+        })
+      );
+    }
+  };
+
   const startLoadingEmployees = async () => {
     try {
       const { data } = await clientAxios("/employees");
@@ -42,7 +79,9 @@ export const useEmployee = () => {
   };
 
   return {
+    startGetEmployee,
     startNewEmployee,
     startLoadingEmployees,
+    startEditEmployee,
   };
 };

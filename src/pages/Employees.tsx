@@ -15,8 +15,6 @@ const Employees = () => {
     startLoadingEmployees();
   }, [employees.length]);
 
-  console.log(employees.length);
-
   const handleClick = () => {
     setModalForm(!modalForm);
   };
