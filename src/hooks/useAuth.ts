@@ -1,6 +1,6 @@
 import { onChecking, onLogin, onLogout } from "../store/auth/authSlice";
 import clientAxios from "../config/clientAxios";
-import { useAppDispatch, useAppSelector } from "../store/store";
+import { useAppDispatch } from "../store/store";
 
 interface Business {
   email: string;
@@ -22,7 +22,6 @@ export const useAuth = () => {
       });
 
       localStorage.setItem("token", data.token);
-      console.log(data);
       dispatch(onLogin({ businessName: data.businessName, email: data.email }));
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

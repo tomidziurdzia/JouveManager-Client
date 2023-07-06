@@ -3,6 +3,7 @@ import { Employee } from "../interfaces/Employee";
 import { useEmployee } from "../hooks/useEmployee";
 import ModalEmployeeForm from "./ModalEmployeeForm";
 import { useState } from "react";
+import ModalDelete from "./ModalDelete";
 
 interface Props {
   employee: Employee;
@@ -10,15 +11,16 @@ interface Props {
 
 const Employee = ({ employee }: Props) => {
   const [modalForm, setModalForm] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
 
-  const { startGetEmployee, startDeleteEmployee } = useEmployee();
+  const { startGetEmployee } = useEmployee();
   const handleClickEdit = async () => {
     await startGetEmployee(employee);
     setModalForm(!modalForm);
   };
 
-  const handleClickDelete = async () => {
-    await startDeleteEmployee(employee);
+  const handleClickDelete = () => {
+    setModalDelete(!modalDelete);
   };
 
   return (
@@ -55,6 +57,11 @@ const Employee = ({ employee }: Props) => {
         </button>
       </div>
       <ModalEmployeeForm modalForm={modalForm} setModalForm={setModalForm} />
+      <ModalDelete
+        modalDelete={modalDelete}
+        setModalDelete={setModalDelete}
+        employee={employee}
+      />
     </div>
   );
 };
