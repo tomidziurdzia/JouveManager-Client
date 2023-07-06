@@ -5,19 +5,24 @@ import { Error } from "../interfaces/Error";
 import { Dialog, Transition } from "@headlessui/react";
 import { useEmployee } from "../hooks/useEmployee";
 import { Employee } from "../interfaces/Employee";
+import { Vehicle } from "../interfaces/Vehicle";
+import { useVehicle } from "../hooks/useVehicle";
 
 interface CategoryProps {
   modalDelete: boolean;
   setModalDelete: Dispatch<SetStateAction<boolean>>;
-  employee: Employee;
+  employee?: Employee;
+  vehicle?: Vehicle;
 }
 
 const ModalDelete: React.FC<CategoryProps> = ({
   modalDelete,
   setModalDelete,
   employee,
+  vehicle,
 }) => {
   const { startDeleteEmployee } = useEmployee();
+  const { startDeleteVehicle } = useVehicle();
 
   const handleClose = () => {
     setAlert({
@@ -35,7 +40,11 @@ const ModalDelete: React.FC<CategoryProps> = ({
   });
 
   const handleSubmit = async () => {
-    await startDeleteEmployee(employee);
+    if (employee) {
+      await startDeleteEmployee(employee!);
+    } else if (vehicle) {
+      await startDeleteVehicle(vehicle!);
+    }
   };
 
   const { msg, error } = alert;
@@ -119,12 +128,14 @@ const ModalDelete: React.FC<CategoryProps> = ({
                     as="h3"
                     className="text-lg leading-6 font-bold text-gray-900"
                   >
-                    Delete employee
+                    Delete {employee ? "Employee" : vehicle ? "Vehicle" : ""}
                   </Dialog.Title>
                   {msg && <Alert msg={msg} error={error} />}
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      A deleted employee cannot be restored
+                      A deleted{" "}
+                      {employee ? "Employee" : vehicle ? "Vehicle" : ""} cannot
+                      be restored
                     </p>
                   </div>
                 </div>

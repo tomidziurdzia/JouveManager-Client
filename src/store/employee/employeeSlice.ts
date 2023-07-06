@@ -14,8 +14,8 @@ const initialState: EmployeeState = {
   errorMessage: undefined,
 };
 
-export const authSlice = createSlice({
-  name: "auth",
+export const employeeSlice = createSlice({
+  name: "employee",
   initialState,
   reducers: {
     onGetEmployee: (state, { payload }) => {
@@ -60,5 +60,5 @@ export const {
   onDeleteEmployee,
   onErrorMessage,
   clearErrorMessage,
-} = authSlice.actions;
-export default authSlice.reducer;
+} = employeeSlice.actions;
+export default employeeSlice.reducer;
