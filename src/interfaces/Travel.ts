@@ -4,9 +4,10 @@ import { Shipment } from "./Shipment";
 
 export interface Travel {
   _id?: string;
-  date: Date;
-  driver: Employee;
-  assistant: Employee;
-  shipments: Shipment[];
-  vehicle: Vehicle;
+  date: Date | string;
+  driver: Employee | undefined;
+  assistant: Employee | undefined;
+  shipments?: Shipment[];
+  vehicle: Vehicle | undefined;
+  semirremolque: Vehicle | undefined;
 }

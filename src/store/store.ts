@@ -3,12 +3,14 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import authSlice from "./auth/authSlice";
 import employeeSlice from "./employee/employeeSlice";
 import vehicleSlice from "./vehicle/vehicleSlice";
+import travelSlice from "./travel/travelSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authSlice,
     employee: employeeSlice,
     vehicle: vehicleSlice,
+    travel: travelSlice,
   },
 });
 

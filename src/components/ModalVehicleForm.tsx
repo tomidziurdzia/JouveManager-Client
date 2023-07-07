@@ -16,6 +16,15 @@ const ModalVehicleForm = ({ modalForm, setModalForm }: Modal) => {
   const dispatch = useAppDispatch();
   const { errorMessage, vehicle } = useAppSelector((state) => state.vehicle);
   const { startNewVehicle, startEditVehicle } = useVehicle();
+  const [alert, setAlert] = useState<Error>({
+    msg: "",
+    error: false,
+  });
+  const [values, setValues] = useState<Vehicle>({
+    patent: "",
+    model: "",
+    typeVehicle: "",
+  });
 
   useEffect(() => {
     if (errorMessage) {
@@ -36,17 +45,6 @@ const ModalVehicleForm = ({ modalForm, setModalForm }: Modal) => {
       });
     }
   }, [modalForm]);
-
-  const [alert, setAlert] = useState<Error>({
-    msg: "",
-    error: false,
-  });
-
-  const [values, setValues] = useState<Vehicle>({
-    patent: "",
-    model: "",
-    typeVehicle: "",
-  });
 
   const handleClick = () => {
     setAlert({
