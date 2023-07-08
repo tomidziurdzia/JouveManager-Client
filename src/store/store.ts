@@ -4,6 +4,7 @@ import authSlice from "./auth/authSlice";
 import employeeSlice from "./employee/employeeSlice";
 import vehicleSlice from "./vehicle/vehicleSlice";
 import travelSlice from "./travel/travelSlice";
+import shipmentSlice from "./shipment/shipmentSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     employee: employeeSlice,
     vehicle: vehicleSlice,
     travel: travelSlice,
+    shipment: shipmentSlice,
   },
 });
 

@@ -281,7 +281,7 @@ const ModalTravelForm = ({ modalForm, setModalForm }: Modal) => {
                         <option value="">-- Select --</option>
                         {vehicle?.map((vehicle) => (
                           <option key={vehicle._id} value={vehicle._id}>
-                            {vehicle.patent}
+                            {vehicle.patent} - {vehicle.model}
                           </option>
                         ))}
                       </select>
@@ -308,7 +308,7 @@ const ModalTravelForm = ({ modalForm, setModalForm }: Modal) => {
                               key={semirremolque._id}
                               value={semirremolque._id}
                             >
-                              {semirremolque.patent}
+                              {semirremolque.patent} - {semirremolque.model}
                             </option>
                           ))}
                         </select>
