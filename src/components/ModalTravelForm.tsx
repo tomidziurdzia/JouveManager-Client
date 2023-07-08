@@ -9,6 +9,8 @@ import Alert from "./Alert";
 import { useEmployee } from "../hooks/useEmployee";
 import { useVehicle } from "../hooks/useVehicle";
 import { onGetVehicle } from "../store/vehicle/vehicleSlice";
+import { Employee } from "../interfaces/Employee";
+import { Vehicle } from "../interfaces/Vehicle";
 
 interface Modal {
   modalForm: boolean;
@@ -22,8 +24,6 @@ const ModalTravelForm = ({ modalForm, setModalForm }: Modal) => {
   const { vehicles, vehicle: getVehicle } = useAppSelector(
     (state) => state.vehicle
   );
-  console.log(travel);
-
   const driver = employees.filter(
     (employee) => employee.type === "Driver".toLowerCase()
   );
@@ -55,9 +55,16 @@ const ModalTravelForm = ({ modalForm, setModalForm }: Modal) => {
   });
 
   useEffect(() => {
-    if (values.vehicle) {
+    startLoadingEmployees();
+    startLoadingVehicle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalForm]);
+
+  useEffect(() => {
+    if (values.vehicle && !values._id) {
       startGetVehicle(values.vehicle);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.vehicle]);
 
   useEffect(() => {
@@ -73,19 +80,18 @@ const ModalTravelForm = ({ modalForm, setModalForm }: Modal) => {
     if (travel?._id) {
       setValues({
         date: travel.date,
-        driver: travel.driver,
-        assistant: travel.assistant,
-        vehicle: travel.vehicle,
-        semirremolque: travel.semirremolque,
+        driver: travel.driver?._id as unknown as Employee,
+        assistant: travel.assistant?._id as unknown as Employee,
+        vehicle: travel.vehicle?._id as unknown as Vehicle,
+        semirremolque: travel.vehicle?._id
+          ? (travel.semirremolque?._id as unknown as Vehicle)
+          : undefined,
         _id: travel._id,
       });
     }
-  }, [modalForm]);
 
-  useEffect(() => {
-    startLoadingEmployees();
-    startLoadingVehicle();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalForm]);
 
   const handleClick = () => {
     setAlert({
@@ -94,7 +100,6 @@ const ModalTravelForm = ({ modalForm, setModalForm }: Modal) => {
     });
     setValues({
       date: "",
-
       driver: undefined,
       assistant: undefined,
       vehicle: undefined,
@@ -135,7 +140,6 @@ const ModalTravelForm = ({ modalForm, setModalForm }: Modal) => {
       error: undefined,
     });
     setModalForm(!modalForm);
-    dispatch(onGetVehicle(null));
   };
 
   const { msg, error } = alert;
@@ -218,7 +222,7 @@ const ModalTravelForm = ({ modalForm, setModalForm }: Modal) => {
                         type="date"
                         className="border w-full mt-2 placeholder-gray-400 rounded-md p-2"
                         name="date"
-                        value={values.date as any}
+                        value={values.date.toString().split("T")[0]}
                         onChange={handleChange}
                       />
                     </div>
@@ -269,6 +273,7 @@ const ModalTravelForm = ({ modalForm, setModalForm }: Modal) => {
                       <select
                         name="vehicle"
                         id="vehicle"
+                        disabled={travel?._id ? true : false}
                         value={values.vehicle?.toString()}
                         onChange={handleChange}
                         className="border w-full mt-2 placeholder-gray-400 rounded-md p-2"

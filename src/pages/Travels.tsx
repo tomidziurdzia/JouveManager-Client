@@ -9,11 +9,12 @@ import Travel from "../components/Travel";
 const Travels = () => {
   const [modalForm, setModalForm] = useState(false);
   const { startLoadingTravels } = useTravel();
-  const { travels } = useAppSelector((state) => state.travel);
+  const { travels, travel } = useAppSelector((state) => state.travel);
 
   useEffect(() => {
     startLoadingTravels();
-  }, [travels.length]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [travels.length, travel]);
 
   const handleClick = () => {
     setModalForm(!modalForm);
@@ -32,15 +33,13 @@ const Travels = () => {
         <p className="w-full text-xl">Travels List</p>
       </div>
       <div className="bg-gray-50 shadow-sm rounded-md mt-5">
-        <div className="hidden lg:flex w-full text-center p-4 border-b-2 text-xl">
+        <div className="hidden lg:flex w-full gap-4 text-center p-4 border-b-2 text-xl">
           <p className="w-1/12">Date</p>
-          <div className="w-3/12">
-            <p className="w-2/3 m-auto  text-left">Driver</p>
-          </div>
-          <div className="w-3/12">
-            <p className="w-2/3  text-left">Assistant</p>
-          </div>
-          <p className="w-2/12 text-left">Vehicle</p>
+          <p className="w-2/12">Driver</p>
+          <p className="w-2/12">Assistant</p>
+          <p className="w-2/12">Vehicle</p>
+          <p className="w-2/12">Semirremolque</p>
+
           <p className="w-3/12">Actions</p>
         </div>
         <>

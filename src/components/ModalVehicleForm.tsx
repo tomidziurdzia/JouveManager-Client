@@ -44,6 +44,7 @@ const ModalVehicleForm = ({ modalForm, setModalForm }: Modal) => {
         _id: vehicle._id,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalForm]);
 
   const handleClick = () => {

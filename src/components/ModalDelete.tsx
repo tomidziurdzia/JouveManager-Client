@@ -1,4 +1,4 @@
-import React, { Dispatch, Fragment, SetStateAction } from "react";
+import React, { Dispatch, Fragment, SetStateAction, useEffect } from "react";
 
 import Alert from "./Alert";
 import { Error } from "../interfaces/Error";
@@ -7,12 +7,18 @@ import { useEmployee } from "../hooks/useEmployee";
 import { Employee } from "../interfaces/Employee";
 import { Vehicle } from "../interfaces/Vehicle";
 import { useVehicle } from "../hooks/useVehicle";
+import { Travel } from "../interfaces/Travel";
+import { useTravel } from "../hooks/useTravel";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { onErrorMessage as onErrorMessageVehicle } from "../store/vehicle/vehicleSlice";
+import { onErrorMessage as onErrorMessageEmployee } from "../store/employee/employeeSlice";
 
 interface CategoryProps {
   modalDelete: boolean;
   setModalDelete: Dispatch<SetStateAction<boolean>>;
   employee?: Employee;
   vehicle?: Vehicle;
+  travel?: Travel;
 }
 
 const ModalDelete: React.FC<CategoryProps> = ({
@@ -20,15 +26,48 @@ const ModalDelete: React.FC<CategoryProps> = ({
   setModalDelete,
   employee,
   vehicle,
+  travel,
 }) => {
   const { startDeleteEmployee } = useEmployee();
   const { startDeleteVehicle } = useVehicle();
+  const { startDeleteTravel } = useTravel();
+
+  const dispatch = useAppDispatch();
+
+  const { errorMessage: errorEmployee } = useAppSelector(
+    (state) => state.employee
+  );
+  const { errorMessage: errorVehicle } = useAppSelector(
+    (state) => state.vehicle
+  );
+
+  useEffect(() => {
+    if (errorEmployee) {
+      setAlert({
+        msg: errorEmployee.msg,
+        error: errorEmployee.error,
+      });
+    }
+  }, [errorEmployee]);
+
+  useEffect(() => {
+    if (errorVehicle) {
+      setAlert({
+        msg: errorVehicle.msg,
+        error: errorVehicle.error,
+      });
+    }
+  }, [errorVehicle]);
 
   const handleClose = () => {
     setAlert({
       msg: "",
       error: undefined,
     });
+
+    dispatch(onErrorMessageVehicle(undefined));
+    dispatch(onErrorMessageEmployee(undefined));
+
     setModalDelete(!modalDelete);
   };
 
@@ -40,14 +79,29 @@ const ModalDelete: React.FC<CategoryProps> = ({
   });
 
   const handleSubmit = async () => {
+    let data;
     if (employee) {
-      await startDeleteEmployee(employee!);
+      data = await startDeleteEmployee(employee);
+      if (data === undefined) return;
     } else if (vehicle) {
-      await startDeleteVehicle(vehicle!);
+      data = await startDeleteVehicle(vehicle);
+      if (data === undefined) return;
+    } else if (travel) {
+      data = await startDeleteTravel(travel);
+      if (data === undefined) return;
     }
+
+    setAlert({
+      msg: "",
+      error: undefined,
+    });
+
+    setModalDelete(!modalDelete);
   };
 
   const { msg, error } = alert;
+
+  console.log(msg);
   return (
     <Transition.Root show={modalDelete} as={Fragment}>
       <Dialog
@@ -128,15 +182,16 @@ const ModalDelete: React.FC<CategoryProps> = ({
                     as="h3"
                     className="text-lg leading-6 font-bold text-gray-900"
                   >
-                    Delete {employee ? "Employee" : vehicle ? "Vehicle" : ""}
+                    Delete{" "}
+                    {employee ? "Employee" : vehicle ? "Vehicle" : "Travel"}
                   </Dialog.Title>
-                  {msg && <Alert msg={msg} error={error} />}
                   <div className="mt-2">
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 mb-5">
                       A deleted{" "}
-                      {employee ? "Employee" : vehicle ? "Vehicle" : ""} cannot
-                      be restored
+                      {employee ? "employee" : vehicle ? "vehicle" : "travel"}{" "}
+                      cannot be restored
                     </p>
+                    {msg && <Alert msg={msg} error={error} />}
                   </div>
                 </div>
               </div>

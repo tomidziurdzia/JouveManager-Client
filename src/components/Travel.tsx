@@ -26,21 +26,30 @@ const Travel = ({ travel }: Props) => {
   const date = formatDate(travel.date as Date);
 
   return (
-    <div className="flex px-4 py-2 items-center border-gray-100 border-b-2 text-lg">
-      <p className="w-1/12 text-center">{date}</p>
+    <div className="flex px-4 py-2 gap-4 text-center items-center border-gray-100 border-b-2 text-lg">
+      <p className="w-1/12">{date}</p>
 
-      <div className="w-3/12">
-        <p className="w-2/3 m-auto capitalize">
+      <div className="w-2/12">
+        <p className="m-auto capitalize">
           {travel.driver?.lastname} {travel.driver?.name}
         </p>
       </div>
-      <p className="w-3/12 capitalize">
-        {travel.assistant?.lastname} {travel.assistant?.name}
+      <p className="w-2/12 capitalize">
+        {travel.assistant === undefined
+          ? "-"
+          : `${travel.assistant?.lastname} ${travel.assistant?.name}`}
       </p>
 
       <div className="w-2/12">
         <p className="m-auto capitalize">{travel.vehicle?.patent}</p>
       </div>
+
+      <div className="w-2/12">
+        <p className="m-auto capitalize text-center">
+          {travel.semirremolque?.patent ? travel.semirremolque?.patent : "-"}
+        </p>
+      </div>
+
       <div className="w-3/12 flex justify-center text-white gap-4">
         <button className="bg-green-300 hover:opacity-60 p-2 rounded-lg shadow-sm w-full">
           View
@@ -62,7 +71,7 @@ const Travel = ({ travel }: Props) => {
       <ModalDelete
         modalDelete={modalDelete}
         setModalDelete={setModalDelete}
-        // vehicle={vehicle}
+        travel={travel}
       />
     </div>
   );

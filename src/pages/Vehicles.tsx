@@ -13,11 +13,13 @@ const Vehicles = () => {
 
   useEffect(() => {
     startLoadingVehicle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vehicles.length]);
 
   const handleClick = () => {
     setModalForm(!modalForm);
   };
+
   return (
     <div className="p-4">
       <div className="flex items-center gap-10">
