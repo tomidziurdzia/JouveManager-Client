@@ -2,12 +2,12 @@ import { Travel } from "./Travel";
 
 export interface Shipment {
   _id?: string;
-  travel: Travel;
+  travel: Travel | undefined;
   from: string;
   to: string;
   client: string;
   description?: string;
-  delivered: boolean;
+  delivered?: boolean;
   reason?: string;
   picture?: string;
 }

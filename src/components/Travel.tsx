@@ -25,6 +25,8 @@ const Travel = ({ travel }: Props) => {
 
   const date = formatDate(travel.date as Date);
 
+  console.log(travel)
+
   return (
     <div className="flex px-4 py-2 gap-4 text-center items-center border-gray-100 border-b-2 text-lg">
       <p className="w-1/12">{date}</p>

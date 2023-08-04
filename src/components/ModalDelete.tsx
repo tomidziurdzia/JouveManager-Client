@@ -101,7 +101,6 @@ const ModalDelete: React.FC<CategoryProps> = ({
 
   const { msg, error } = alert;
 
-  console.log(msg);
   return (
     <Transition.Root show={modalDelete} as={Fragment}>
       <Dialog

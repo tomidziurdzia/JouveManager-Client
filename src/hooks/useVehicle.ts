@@ -14,7 +14,6 @@ export const useVehicle = () => {
   const dispatch = useAppDispatch();
 
   const startNewVehicle = async (vehicle: Vehicle) => {
-    console.log(vehicle);
     try {
       const { data } = await clientAxios.post("/vehicles", vehicle);
       dispatch(
