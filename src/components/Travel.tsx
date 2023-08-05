@@ -25,8 +25,6 @@ const Travel = ({ travel }: Props) => {
 
   const date = formatDate(travel.date as Date);
 
-  console.log(travel)
-
   return (
     <div className="flex px-4 py-2 gap-4 text-center items-center border-gray-100 border-b-2 text-lg">
       <p className="w-1/12">{date}</p>
@@ -37,7 +35,7 @@ const Travel = ({ travel }: Props) => {
         </p>
       </div>
       <p className="w-2/12 capitalize">
-        {travel.assistant === undefined
+        {travel.assistant === null
           ? "-"
           : `${travel.assistant?.lastname} ${travel.assistant?.name}`}
       </p>

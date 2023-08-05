@@ -10,6 +10,7 @@ import Employees from "./pages/Employees";
 import Vehicles from "./pages/Vehicles";
 import Travels from "./pages/Travels";
 import Shipments from "./pages/Shipments";
+import EmployeeDetail from "./pages/EmployeeDetail";
 
 const App = () => {
   const { status } = useAppSelector((state) => state.auth);
@@ -40,6 +41,7 @@ const App = () => {
               <Route path="/vehicles" element={<Vehicles />} />
               <Route path="/travels" element={<Travels />} />
               <Route path="/shipments" element={<Shipments />} />
+              <Route path="/employee/:id" element={<EmployeeDetail />} />
             </Route>
           </>
         )}

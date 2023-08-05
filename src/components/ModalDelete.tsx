@@ -12,6 +12,7 @@ import { useTravel } from "../hooks/useTravel";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { onErrorMessage as onErrorMessageVehicle } from "../store/vehicle/vehicleSlice";
 import { onErrorMessage as onErrorMessageEmployee } from "../store/employee/employeeSlice";
+import { onErrorMessage as onErrorMessageTravel } from "../store/travel/travelSlice";
 
 interface CategoryProps {
   modalDelete: boolean;
@@ -41,6 +42,8 @@ const ModalDelete: React.FC<CategoryProps> = ({
     (state) => state.vehicle
   );
 
+  const {errorMessage:errorTravel} = useAppSelector(state => state.travel)
+
   useEffect(() => {
     if (errorEmployee) {
       setAlert({
@@ -59,6 +62,15 @@ const ModalDelete: React.FC<CategoryProps> = ({
     }
   }, [errorVehicle]);
 
+    useEffect(() => {
+    if (errorTravel) {
+      setAlert({
+        msg: errorTravel.msg,
+        error: errorTravel.error,
+      });
+    }
+  }, [errorTravel]);
+
   const handleClose = () => {
     setAlert({
       msg: "",
@@ -67,6 +79,7 @@ const ModalDelete: React.FC<CategoryProps> = ({
 
     dispatch(onErrorMessageVehicle(undefined));
     dispatch(onErrorMessageEmployee(undefined));
+    dispatch(onErrorMessageTravel(undefined))
 
     setModalDelete(!modalDelete);
   };

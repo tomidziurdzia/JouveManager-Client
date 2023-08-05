@@ -7,7 +7,6 @@ interface Props {
 }
 
 const Shipment = ({shipment}:Props) => {
-  console.log(shipment)
 
   const date = formatDate(shipment.travel?.date as Date);
 
